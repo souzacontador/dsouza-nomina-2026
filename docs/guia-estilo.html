@@ -1,0 +1,383 @@
+<title>Sistema DSouza · Nómina 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root {
+    --bg: #F7F5F1; --surface: #FFFFFF; --surface-2: #EDE9E2; --border: #DCE3EA;
+    --ink: #0A2540; --ink-2: #3A4652; --ink-3: #5A6675;
+    --accent: #00B8D9; --accent-deep: #006577; --amber: #F5A623; --amber-ink: #875B13;
+    --positive: #0E7C66; --negative: #C0392B; --node: #7AA7FF;
+    --rail: #00B8D9;
+    --serif: "Source Serif 4", Georgia, Cambria, serif;
+    --sans: "IBM Plex Sans", Calibri, Arial, system-ui, sans-serif;
+    --mono: "IBM Plex Mono", "Cascadia Mono", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #061423; --surface: #0A2540; --surface-2: #09213A; --border: #1E3A57;
+      --ink: #EBEEF0; --ink-2: #C4CBD1; --ink-3: #98A3AF;
+      --accent: #2EC5E0; --accent-deep: #94E1EF; --amber: #F7B64B; --amber-ink: #FBDAA3;
+      --positive: #46C7AC; --negative: #E0715F; --node: #7AA7FF; --rail: #00B8D9;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #061423; --surface: #0A2540; --surface-2: #09213A; --border: #1E3A57;
+    --ink: #EBEEF0; --ink-2: #C4CBD1; --ink-3: #98A3AF;
+    --accent: #2EC5E0; --accent-deep: #94E1EF; --amber: #F7B64B; --amber-ink: #FBDAA3;
+    --positive: #46C7AC; --negative: #E0715F; --node: #7AA7FF; --rail: #00B8D9;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); line-height: 1.55; font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; margin: 0; }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); }
+  a { color: var(--accent-deep); }
+
+  /* Masthead */
+  header.mast {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  header.mast .grafo { position: absolute; right: -20px; top: -10px; opacity: .22; pointer-events: none; }
+  .mast-inner { padding: 40px 0 34px; position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end; justify-content: space-between; }
+  .mast h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.04; letter-spacing: -.01em; color: var(--ink); }
+  .mast .sub { color: var(--ink-2); margin-top: 10px; max-width: 52ch; }
+  .mast .sub b { color: var(--ink); font-weight: 600; }
+  .badge-brand { display: inline-block; background: var(--accent); color: #04222b; font-weight: 600; font-size: 12px; padding: 3px 9px; border-radius: 5px; letter-spacing: .02em; }
+  .toolbar { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+  .ver { font-size: 12px; color: var(--ink-3); font-family: var(--mono); }
+  .toggle { display: inline-flex; gap: 2px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 3px; }
+  .toggle button { font: inherit; font-size: 12px; font-weight: 600; border: 0; background: transparent; color: var(--ink-3); padding: 5px 11px; border-radius: 6px; cursor: pointer; }
+  .toggle button[aria-pressed="true"] { background: var(--accent); color: #04222b; }
+  .toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Sections */
+  section { padding: 46px 0; border-bottom: 1px solid var(--border); }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 26px; }
+  .sec-head .n { font-family: var(--mono); font-size: 13px; color: var(--accent-deep); font-weight: 600; }
+  .sec-head h2 { font-size: 23px; color: var(--ink); }
+  .sec-head p { margin: 4px 0 0; color: var(--ink-3); font-size: 14px; }
+  .lead { color: var(--ink-2); max-width: 68ch; }
+
+  .grid { display: grid; gap: 16px; }
+  .cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .cols-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 820px) { .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; } .mast-inner { align-items: flex-start; } .toolbar { align-items: flex-start; } }
+
+  /* Principles */
+  .principios { display: grid; grid-template-columns: repeat(2,1fr); gap: 0; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--surface); }
+  @media (max-width: 820px){ .principios { grid-template-columns: 1fr; } }
+  .principio { padding: 20px 22px; border-right: 1px solid var(--border); border-top: 1px solid var(--border); }
+  .principio:nth-child(-n+2){ border-top: 0; }
+  .principio:nth-child(2n){ border-right: 0; }
+  .principio h3 { font-family: var(--sans); font-size: 15px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .principio .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
+  .principio p { margin: 7px 0 0; font-size: 13.5px; color: var(--ink-2); }
+
+  /* Roles de color */
+  .rol { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .rol .chip { height: 84px; display: flex; align-items: flex-end; padding: 10px 12px; }
+  .rol .meta { padding: 12px 14px; }
+  .rol .meta .name { font-weight: 600; font-size: 14px; color: var(--ink); }
+  .rol .meta .use { font-size: 12.5px; color: var(--ink-3); margin-top: 3px; }
+  .rol .meta .hex { font-family: var(--mono); font-size: 12px; color: var(--ink-2); margin-top: 6px; }
+
+  /* Escalas tonales */
+  .escala { margin-top: 8px; }
+  .escala .lab { font-size: 12px; font-weight: 600; color: var(--ink-2); margin: 14px 0 6px; letter-spacing: .02em; }
+  .ramp { display: grid; grid-template-columns: repeat(9, 1fr); border-radius: 9px; overflow: hidden; border: 1px solid var(--border); }
+  .ramp span { height: 46px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; font-family: var(--mono); font-size: 10px; }
+  @media (max-width: 620px){ .ramp span { font-size: 0; height: 34px; } }
+
+  /* Tipografía */
+  .type-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; }
+  .type-card + .type-card { margin-top: 14px; }
+  .type-card .role { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 14px; }
+  .type-card .role .fam { font-size: 13px; font-weight: 600; color: var(--accent-deep); letter-spacing: .04em; text-transform: uppercase; }
+  .type-card .role .meta { font-size: 12.5px; color: var(--ink-3); }
+  .spec-serif { font-family: var(--serif); font-weight: 700; font-size: clamp(26px,4vw,38px); color: var(--ink); line-height: 1.1; }
+  .spec-sans { font-family: var(--sans); font-size: 17px; color: var(--ink-2); }
+  .spec-mono { font-family: var(--mono); font-size: 20px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .scale-row { display:flex; flex-wrap: wrap; gap: 18px; align-items: baseline; margin-top: 14px; }
+  .scale-row .s { color: var(--ink); } .scale-row .s small { color: var(--ink-3); font-family: var(--mono); font-size: 11px; display:block; }
+
+  /* Componentes */
+  .demo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; }
+  .demo h3 { font-family: var(--sans); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); font-weight: 600; margin-bottom: 14px; }
+  .btn { font: inherit; font-weight: 600; font-size: 14px; border: 0; border-radius: 9px; padding: 10px 16px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+  .btn.primary { background: var(--ink); color: #fff; }
+  .btn.tech { background: var(--accent); color: #04222b; }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .pill { font-size: 12px; font-weight: 700; padding: 4px 11px; border-radius: 999px; color: #fff; }
+  .pill.sm { background: var(--positive); } .pill.isr { background: var(--accent); color:#04222b; } .pill.sub { background: var(--node); color:#0a1c3a; }
+  .sem { display: grid; gap: 8px; }
+  .aviso { display: flex; gap: 9px; align-items: flex-start; border: 1px solid; border-radius: 9px; padding: 9px 12px; font-size: 13px; }
+  .aviso .ic { font-family: var(--mono); font-weight: 600; flex: none; }
+  .aviso.err { background: color-mix(in srgb, var(--negative) 12%, var(--surface)); border-color: color-mix(in srgb, var(--negative) 40%, transparent); color: var(--negative); }
+  .aviso.warn { background: color-mix(in srgb, var(--amber) 16%, var(--surface)); border-color: color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber-ink); }
+  .aviso.info { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); border-color: color-mix(in srgb, var(--accent) 34%, transparent); color: var(--accent-deep); }
+
+  /* Recibo mock */
+  .recibo { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+  .recibo .top { background: var(--ink); color: #fff; padding: 20px 22px; }
+  .recibo .top .k { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #C4CBD1; }
+  .recibo .top .neto { font-family: var(--mono); font-weight: 700; font-size: 40px; letter-spacing: -.02em; }
+  .recibo .top .dias { color: #98A3AF; font-size: 13px; margin-top: 4px; }
+  .recibo .body { background: var(--surface); padding: 14px 22px; }
+  .recibo .row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .recibo .row:last-child { border-bottom: 0; }
+  .recibo .row .v { font-family: var(--mono); }
+  .recibo .row .neg { color: var(--negative); } .recibo .row .pos { color: var(--positive); }
+  .recibo .top .tag { display:inline-block; background: var(--positive); color:#fff; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+
+  /* Tabla costo social */
+  table.cs { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.cs th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  table.cs th.num, table.cs td.num { text-align: right; font-family: var(--mono); }
+  table.cs td { padding: 9px 10px; border-bottom: 1px solid var(--border); color: var(--ink-2); }
+  table.cs td .c { font-weight: 500; color: var(--ink); }
+  table.cs tr.rt td:first-child { border-left: 4px solid var(--amber); }
+  table.cs tr.rcv td:first-child { border-left: 4px solid var(--accent); }
+  table.cs tr.info td:first-child { border-left: 4px solid var(--node); }
+  table.cs tr.total td { background: var(--ink); color: #fff; font-weight: 700; border: 0; }
+  table.cs tr.total td .lab { font-family: var(--sans); text-transform: uppercase; font-size: 11px; letter-spacing: .05em; }
+  .twrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+
+  /* Leyenda + footer */
+  .legal { display: flex; gap: 12px; align-items: flex-start; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .legal .ic { color: var(--accent-deep); font-family: var(--mono); font-weight: 600; flex: none; }
+  .legal p { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+  footer.pie { padding: 30px 0 46px; display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; align-items: center; }
+  footer.pie .who { display: flex; align-items: center; gap: 12px; }
+  footer.pie .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--ink); display: grid; place-items: center; flex: none; }
+  footer.pie .name { font-family: var(--serif); font-weight: 700; color: var(--ink); font-size: 15px; }
+  footer.pie .b { font-size: 12px; color: var(--ink-3); }
+  footer.pie .attr { text-align: right; font-size: 13px; color: var(--ink-2); }
+  footer.pie .attr .t { font-size: 12px; color: var(--ink-3); }
+  .cap { font-size: 12.5px; color: var(--ink-3); margin-top: 10px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="mast">
+  <svg class="grafo" width="360" height="200" viewBox="0 0 360 200" fill="none" aria-hidden="true">
+    <g stroke="#7AA7FF" stroke-width="1.4" opacity="0.9">
+      <line x1="70" y1="60" x2="180" y2="40"/><line x1="180" y1="40" x2="300" y2="90"/>
+      <line x1="70" y1="60" x2="150" y2="150"/><line x1="150" y1="150" x2="300" y2="90"/>
+      <line x1="180" y1="40" x2="150" y2="150"/>
+    </g>
+    <g fill="#7AA7FF"><circle cx="70" cy="60" r="6"/><circle cx="150" cy="150" r="6"/><circle cx="300" cy="90" r="6"/></g>
+    <circle cx="180" cy="40" r="8" fill="#00B8D9"/>
+  </svg>
+  <div class="wrap mast-inner">
+    <div>
+      <p class="eyebrow">Sistema de diseño · Refinada 2026</p>
+      <h1>Calculadora Nómina 2026 y Carga Social</h1>
+      <p class="sub"><span class="badge-brand">DSouza Consultores Fiscales</span> &nbsp;<b>Inteligencia Fiscal Preventiva desde Mexicali.</b> Lenguaje visual de un producto fiscal que debe leerse igual por un contador y por un empresario.</p>
+    </div>
+    <div class="toolbar">
+      <div class="toggle" role="group" aria-label="Tema">
+        <button data-theme-btn="light" aria-pressed="false">Claro</button>
+        <button data-theme-btn="dark" aria-pressed="false">Oscuro</button>
+        <button data-theme-btn="system" aria-pressed="true">Sistema</button>
+      </div>
+      <span class="ver">v2.0 · corte normativo 06-09-2026</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="principios">
+    <div class="sec-head"><span class="n">01</span><div><h2>Principios</h2><p>Cinco reglas que gobiernan cada pantalla y cada reporte.</p></div></div>
+    <div class="principios">
+      <div class="principio"><h3><span class="dot"></span>Jerarquía por profundidad de azul</h3><p>El Azul Meridiano estructura; el Cian marca lo accionable y lo tecnológico. Nunca se introduce un color ajeno a la marca.</p></div>
+      <div class="principio"><h3><span class="dot"></span>La cifra vive en monoespaciada</h3><p>Todo importe usa IBM Plex Mono con cifras tabulares, para que las columnas de pesos alineen al centavo.</p></div>
+      <div class="principio"><h3><span class="dot"></span>Legible a un brazo de distancia</h3><p>Cuerpo mínimo de 16&nbsp;px e interlineado 1.5: buena parte del público del despacho pasa de los 50&nbsp;años y consulta en el celular.</p></div>
+      <div class="principio"><h3><span class="dot"></span>El ámbar es solo de alerta</h3><p>Reservado a advertencias, topes de ley y montos en incumplimiento. Jamás decorativo.</p></div>
+      <div class="principio"><h3><span class="dot"></span>Cada cifra lleva su fundamento</h3><p>Todo resultado cita artículo y DOF. La leyenda legal y la atribución son obligatorias en pantalla, PDF y CSV.</p></div>
+      <div class="principio"><h3><span class="dot"></span>Estabilidad institucional</h3><p>Serifa editorial en los títulos, superficies serenas y grafo fiscal tenue: autoridad técnica frente a firmas grandes.</p></div>
+    </div>
+  </section>
+
+  <section id="color">
+    <div class="sec-head"><span class="n">02</span><div><h2>Color — Paleta Refinada 2026</h2><p>Cinco roles de marca y sus escalas tonales derivadas (100 claro → 900 profundo).</p></div></div>
+    <div class="grid cols-3">
+      <div class="rol"><div class="chip" style="background:#0A2540"><span style="color:#C2EEF6;font-family:var(--mono);font-size:11px">azul-600</span></div><div class="meta"><div class="name">Azul Meridiano</div><div class="use">Jerarquía, encabezados, cifra neta, totales</div><div class="hex">#0A2540</div></div></div>
+      <div class="rol"><div class="chip" style="background:#00B8D9"><span style="color:#04222b;font-family:var(--mono);font-size:11px">cian-600</span></div><div class="meta"><div class="name">Cian Algorítmico</div><div class="use">CTA, filetes, íconos, foco, positivos técnicos</div><div class="hex">#00B8D9</div></div></div>
+      <div class="rol"><div class="chip" style="background:#7AA7FF"><span style="color:#0a1c3a;font-family:var(--mono);font-size:11px">acento-600</span></div><div class="meta"><div class="name">Acento Algorítmico</div><div class="use">Grafo fiscal, tiempo extra, INFONAVIT</div><div class="hex">#7AA7FF</div></div></div>
+      <div class="rol"><div class="chip" style="background:#F5A623"><span style="color:#5a3d0d;font-family:var(--mono);font-size:11px">ambar-600</span></div><div class="meta"><div class="name">Ámbar Conversión</div><div class="use">Advertencias, SBC topado, horas ilegales</div><div class="hex">#F5A623</div></div></div>
+      <div class="rol"><div class="chip" style="background:#999999"><span style="color:#fff;font-family:var(--mono);font-size:11px">gris</span></div><div class="meta"><div class="name">Gris Analítico</div><div class="use">Notas y pies — nunca cuerpo de texto</div><div class="hex">#999999</div></div></div>
+      <div class="rol"><div class="chip" style="background:#F7F5F1;border-bottom:1px solid #DCE3EA"><span style="color:#3A4652;font-family:var(--mono);font-size:11px">hueso</span></div><div class="meta"><div class="name">Neutro Hueso</div><div class="use">Lienzo de lectura de la aplicación</div><div class="hex">#F7F5F1</div></div></div>
+    </div>
+
+    <div class="escala">
+      <div class="lab">Azul Meridiano</div>
+      <div class="ramp" id="r-azul"></div>
+      <div class="lab">Cian Algorítmico</div>
+      <div class="ramp" id="r-cian"></div>
+      <div class="lab">Acento Algorítmico</div>
+      <div class="ramp" id="r-acento"></div>
+      <div class="lab">Ámbar Conversión (uso restringido)</div>
+      <div class="ramp" id="r-ambar"></div>
+    </div>
+
+    <div class="grid cols-3" style="margin-top:22px">
+      <div class="rol"><div class="chip" style="background:#0E7C66"><span style="color:#d7f2ea;font-family:var(--mono);font-size:11px">positivo</span></div><div class="meta"><div class="name">Positivo</div><div class="use">Exento, subsidio, neto, cuota absorbida (art. 36)</div><div class="hex">#0E7C66</div></div></div>
+      <div class="rol"><div class="chip" style="background:#C0392B"><span style="color:#fbeae8;font-family:var(--mono);font-size:11px">negativo</span></div><div class="meta"><div class="name">Negativo</div><div class="use">ISR retenido, IMSS obrero, deducciones</div><div class="hex">#C0392B</div></div></div>
+      <div class="rol"><div class="chip" style="background:#3A4652"><span style="color:#DCE3EA;font-family:var(--mono);font-size:11px">grafito</span></div><div class="meta"><div class="name">Grafito</div><div class="use">Texto de cuerpo secundario</div><div class="hex">#3A4652</div></div></div>
+    </div>
+    <p class="cap">Los complementarios positivo/negativo son tonos armónicos con la marca, de uso funcional para la semántica de signo. La Guía DSV original (#003366 / #0099CC) queda como alternativa sancionada.</p>
+  </section>
+
+  <section id="tipografia">
+    <div class="sec-head"><span class="n">03</span><div><h2>Tipografía</h2><p>Tres familias, tres funciones: autoridad, lectura y dato.</p></div></div>
+    <div class="type-card">
+      <div class="role"><span class="fam">Source Serif 4 · Títulos</span><span class="meta">400 / 600 / 700 — autoridad editorial</span></div>
+      <div class="spec-serif">Determinación de ISR y cuotas obrero-patronales</div>
+    </div>
+    <div class="type-card">
+      <div class="role"><span class="fam">IBM Plex Sans · Cuerpo</span><span class="meta">400 / 500 / 600 / 700 — sans humanista</span></div>
+      <p class="spec-sans" style="margin:0">El subsidio para el empleo se acredita contra el ISR del periodo; nunca se entrega en efectivo. Para pagos menores a un mes se prorratea el monto mensual entre 30.4 por el número de días.</p>
+    </div>
+    <div class="type-card">
+      <div class="role"><span class="fam">IBM Plex Mono · Datos</span><span class="meta">400 / 600 — cifras tabulares</span></div>
+      <div class="spec-mono">$6,592.87 &nbsp; · &nbsp; 15.02% &nbsp; · &nbsp; F.I. 1.0493 &nbsp; · &nbsp; SBC $524.65</div>
+      <div class="scale-row">
+        <span class="s" style="font-family:var(--mono);font-size:40px;font-weight:700">48<small>neto / display</small></span>
+        <span class="s" style="font-family:var(--serif);font-size:23px;font-weight:700">Aa<small>título 23</small></span>
+        <span class="s" style="font-size:16px">Aa<small>cuerpo 16</small></span>
+        <span class="s" style="font-size:13px">Aa<small>nota 13</small></span>
+        <span class="s" style="font-size:11px;color:var(--ink-3)">Aa<small>pie 11</small></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="componentes">
+    <div class="sec-head"><span class="n">04</span><div><h2>Componentes</h2><p>Botones, estados y bloques de resultado, con datos fiscales reales.</p></div></div>
+    <div class="grid cols-2">
+      <div class="demo">
+        <h3>Botones</h3>
+        <div class="btns">
+          <button class="btn primary">PDF / Imprimir</button>
+          <button class="btn tech">Excel (CSV)</button>
+        </div>
+        <h3 style="margin-top:20px">Estados del recibo</h3>
+        <div class="pills">
+          <span class="pill sm">Salario mínimo</span>
+          <span class="pill isr">Sin retención ISR · art. 96</span>
+          <span class="pill sub">Subsidio acreditado</span>
+        </div>
+      </div>
+      <div class="demo">
+        <h3>Semáforo de avisos</h3>
+        <div class="sem">
+          <div class="aviso info"><span class="ic">i</span><span>SBC topado a 25 UMA ($2,932.75 diarios, art. 28 LSS).</span></div>
+          <div class="aviso warn"><span class="ic">!</span><span>Prima de riesgo menor a la mínima de ley; se ajustó a 0.5&nbsp;% (art. 74 LSS).</span></div>
+          <div class="aviso err"><span class="ic">×</span><span>La cuota diaria es inferior al salario mínimo de la zona ($315.04).</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid cols-2" style="margin-top:16px">
+      <div class="recibo">
+        <div class="top">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+            <div>
+              <div class="k">Neto a recibir (quincenal)</div>
+              <div class="neto">$6,592.87</div>
+              <div class="dias">15 días · feb–dic 2026</div>
+            </div>
+            <span class="tag">Salario mínimo</span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="row"><span>Sueldo ordinario</span><span class="v">$7,500.00</span></div>
+          <div class="row"><span>ISR retenido</span><span class="v neg">− $709.86</span></div>
+          <div class="row"><span>Cuota obrera IMSS</span><span class="v neg">− $197.27</span></div>
+          <div class="row"><span>Subsidio acreditado</span><span class="v pos">− $0.00</span></div>
+        </div>
+      </div>
+
+      <div class="demo" style="padding:0">
+        <div style="padding:16px 22px 0"><h3 style="margin:0">Costo social · liquidación IMSS 2026</h3></div>
+        <div class="twrap" style="border:0;margin-top:12px">
+          <table class="cs">
+            <thead><tr><th>Rama del seguro</th><th class="num">Patrón</th><th class="num">Obrero</th></tr></thead>
+            <tbody>
+              <tr><td><span class="c">Cuota fija (EyM)</span></td><td class="num">$358.97</td><td class="num">—</td></tr>
+              <tr class="rt"><td><span class="c">Riesgo de trabajo</span></td><td class="num">$39.35</td><td class="num">—</td></tr>
+              <tr class="rcv"><td><span class="c">Cesantía y vejez</span></td><td class="num">$591.25</td><td class="num">$88.53</td></tr>
+              <tr class="info"><td><span class="c">INFONAVIT (5 %)</span></td><td class="num">$393.49</td><td class="num">—</td></tr>
+              <tr class="total"><td><span class="lab">Costo social del periodo</span></td><td class="num">$1,923.09</td><td class="num">$197.27</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p class="cap">Filete izquierdo por naturaleza del ramo: ámbar = riesgo de trabajo, cian = RCV, acento = INFONAVIT. Cesantía y Vejez patronal en 7.513&nbsp;% (columna 2026 del Transitorio Segundo, Decreto DOF 16-12-2020).</p>
+  </section>
+
+  <section id="obligatorio">
+    <div class="sec-head"><span class="n">05</span><div><h2>Contenido institucional obligatorio</h2><p>Presente en pantalla, en el PDF y en el CSV. Fuente única en <span class="mono" style="font-size:13px">src/ui/marca.ts</span>.</p></div></div>
+    <div class="legal">
+      <span class="ic">§</span>
+      <p>Los resultados son estimativos e informativos. No sustituyen asesoría profesional ni una determinación fiscal definitiva. Verifique la información y la normativa vigente antes de presentar declaraciones o realizar pagos.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="pie wrap">
+  <div class="who">
+    <div class="mark" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><g stroke="#00B8D9" stroke-width="1.5"><line x1="5" y1="8" x2="12" y2="5"/><line x1="12" y1="5" x2="19" y2="11"/><line x1="5" y1="8" x2="10" y2="18"/></g><circle cx="12" cy="5" r="2.4" fill="#00B8D9"/><g fill="#7AA7FF"><circle cx="5" cy="8" r="1.9"/><circle cx="19" cy="11" r="1.9"/><circle cx="10" cy="18" r="1.9"/></g></svg>
+    </div>
+    <div>
+      <div class="name">DSouza Consultores Fiscales</div>
+      <div class="b">Inteligencia Fiscal Preventiva desde Mexicali</div>
+    </div>
+  </div>
+  <div class="attr">
+    <div>Elaborado por C.P. Daniel Souza Vázquez | daniel@dsouzaconsultores.mx</div>
+    <div class="t">(686) 256-7293 · Mexicali, Baja California</div>
+  </div>
+</footer>
+
+<script>
+  const RAMPS = {
+    'r-azul': ['#061423','#081D32','#09213A','#0A2540','#364C62','#627385','#98A3AF','#C4CBD1','#EBEEF0'],
+    'r-cian': ['#006577','#0090A9','#00A6C3','#00B8D9','#2EC5E0','#5CD2E7','#94E1EF','#C2EEF6','#EBF9FC'],
+    'r-acento': ['#435C8C','#5F82C7','#6E96E6','#7AA7FF','#92B7FF','#AAC7FF','#C7DAFF','#DFEAFF','#F4F8FF'],
+    'r-ambar': ['#875B13','#BF811B','#DC9520','#F5A623','#F7B64B','#F9C672','#FBDAA3','#FDEACA','#FEF8ED'],
+  };
+  const tones = [900,800,700,600,500,400,300,200,100];
+  for (const [id, cols] of Object.entries(RAMPS)) {
+    const el = document.getElementById(id);
+    el.innerHTML = cols.map((c, i) => {
+      const dark = i < 4;
+      return `<span style="background:${c};color:${dark ? '#EBF9FC' : '#09213A'}">${tones[i]}</span>`;
+    }).join('');
+  }
+  // Theme toggle
+  const root = document.documentElement;
+  const btns = [...document.querySelectorAll('[data-theme-btn]')];
+  function setTheme(mode) {
+    if (mode === 'system') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', mode);
+    btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeBtn === mode)));
+    try { localStorage.setItem('ds-tema', mode); } catch (e) {}
+  }
+  btns.forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeBtn)));
+  let saved = 'system';
+  try { saved = localStorage.getItem('ds-tema') || 'system'; } catch (e) {}
+  setTheme(saved);
+</script>
