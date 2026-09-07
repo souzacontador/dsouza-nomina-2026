@@ -1,8 +1,10 @@
 import { Gift } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { ETIQUETA_MES, UMA_DIARIA } from '../../motor/constantes2026';
+import { CONCEPTOS_LFT, ETIQUETA_MES, EXENCIONES_93, METODO_ISR, UMA_DIARIA } from '../../motor/constantes2026';
 import { calcularConceptosAnuales } from '../../motor/conceptosAnuales';
 import type { MesCalculo } from '../../motor/tipos';
+import type { ReporteFiscal } from '../../exportar/documento';
+import AccionesExport from '../componentes/AccionesExport';
 import { Campo, Renglon, Tarjeta } from '../componentes/Campo';
 import { moneda, porcentaje } from '../formato';
 
@@ -30,8 +32,49 @@ export default function VistaConceptos() {
       </div>
     ) : null;
 
+  const reporte = (): ReporteFiscal => {
+    const conceptoFilas = [
+      ['Aguinaldo', r.aguinaldo],
+      ['Prima vacacional', r.primaVacacional],
+      ['PTU', r.ptu],
+      ['Prima dominical', r.primaDominical],
+    ].filter(([, c]) => (c as { monto: number }).monto > 0)
+      .map(([n, c]) => [n as string, (c as { monto: number; exento: number; gravado: number }).monto, (c as { exento: number }).exento, (c as { gravado: number }).gravado]);
+    return {
+      titulo: 'Aguinaldo, prima vacacional y PTU',
+      archivo: 'ConceptosAnuales_2026',
+      parametros: [
+        ['Cuota diaria', cuotaDiaria],
+        ['Mes (UMA)', ETIQUETA_MES[mes]],
+        ['Días de aguinaldo', aguinaldoDias],
+        ['Días de vacaciones', diasVacaciones],
+        ['Días trabajados en el año', diasTrabajadosAnio],
+      ],
+      secciones: [
+        { titulo: 'Conceptos', columnas: ['Concepto', 'Monto', 'Exento', 'Gravado'], filas: conceptoFilas },
+        {
+          titulo: 'Impuesto',
+          filas: [
+            ['Total percepciones', r.totalPercepciones],
+            ['Total exento (art. 93-XIV)', r.totalExento],
+            ['Total gravado', r.totalGravado],
+            [`ISR por retener (art. 174, tasa ${porcentaje(r.tasaArt174, 4)})`, r.isr],
+          ],
+        },
+      ],
+      totalEtiqueta: 'Neto a pagar',
+      totalValor: r.neto,
+      fuentes: [EXENCIONES_93.fuente, METODO_ISR.fuenteArt174, CONCEPTOS_LFT.fuente],
+    };
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="space-y-6">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h2 className="font-serif text-lg font-bold text-azul-600">Aguinaldo, prima vacacional y PTU</h2>
+        <AccionesExport construir={reporte} />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-5 space-y-6">
         <Tarjeta titulo="Aguinaldo, prima vacacional y PTU" icono={<Gift className="w-4 h-4 text-cian-600" />}>
           <div className="grid grid-cols-2 gap-4">
@@ -71,6 +114,7 @@ export default function VistaConceptos() {
             <span className="font-bold text-2xl text-azul-600 font-mono tabular bg-cian-100 px-3 py-1 rounded">{moneda(r.neto)}</span>
           </div>
         </Tarjeta>
+      </div>
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 import { AlertTriangle, CalendarRange } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { calcularISRAnual } from '../../motor/isrAnual';
+import type { ReporteFiscal } from '../../exportar/documento';
+import AccionesExport from '../componentes/AccionesExport';
 import { Campo, Renglon, Tarjeta } from '../componentes/Campo';
 import { moneda } from '../formato';
 
@@ -9,8 +11,37 @@ export default function VistaISRAnual() {
   const [retenido, setRetenido] = useState(15000);
   const r = useMemo(() => calcularISRAnual({ ingresoGravableAnual: ingreso, isrRetenidoAnual: retenido }), [ingreso, retenido]);
 
+  const reporte = (): ReporteFiscal => ({
+    titulo: 'ISR anual del ejercicio 2026',
+    archivo: 'ISR_Anual_2026',
+    parametros: [
+      ['Ingreso gravable anual', ingreso],
+      ['ISR retenido', retenido],
+    ],
+    secciones: [
+      {
+        titulo: 'Cálculo (art. 152 LISR)',
+        filas: [
+          ['Límite inferior del tramo', r.renglon?.limInf ?? 0],
+          ['Excedente', r.excedente],
+          ['Impuesto marginal', r.impuestoMarginal],
+          ['Cuota fija', r.cuotaFija],
+          ['ISR anual', r.isrAnual],
+          ['ISR retenido', r.isrRetenidoAnual],
+          [r.aFavor ? 'Saldo a favor' : 'Saldo a cargo', Math.abs(r.saldo)],
+        ],
+      },
+    ],
+    fuentes: [r.tarifaClave],
+  });
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="space-y-6">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h2 className="font-serif text-lg font-bold text-azul-600">ISR anual del ejercicio</h2>
+        <AccionesExport construir={reporte} />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-5 space-y-6">
         <Tarjeta titulo="Cálculo anual (art. 152 LISR)" icono={<CalendarRange className="w-4 h-4 text-cian-600" />}>
           <div className="space-y-4">
@@ -50,6 +81,7 @@ export default function VistaISRAnual() {
             El subsidio para el empleo entregado en el año ya redujo las retenciones mensuales; no se vuelve a acreditar en el anual (Decreto DOF 31-12-2025).
           </p>
         </Tarjeta>
+      </div>
       </div>
     </div>
   );

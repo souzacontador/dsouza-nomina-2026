@@ -1,8 +1,10 @@
 import { Shuffle } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { ETIQUETA_MES, ETIQUETA_ZONA, FACTORES_INTEGRACION } from '../../motor/constantes2026';
+import { ETIQUETA_MES, ETIQUETA_ZONA, FACTORES_INTEGRACION, LSS } from '../../motor/constantes2026';
 import { calcularSBCVariable } from '../../motor/sbcVariable';
 import type { MesCalculo, Zona } from '../../motor/tipos';
+import type { ReporteFiscal } from '../../exportar/documento';
+import AccionesExport from '../componentes/AccionesExport';
 import { Campo, Renglon, Tarjeta } from '../componentes/Campo';
 import { moneda } from '../formato';
 
@@ -19,8 +21,41 @@ export default function VistaSBCVariable() {
     [cuotaFija, factorIdx, totalVariableBimestre, diasBimestre, zona, mes],
   );
 
+  const reporte = (): ReporteFiscal => ({
+    titulo: 'Salario base de cotización variable/mixto',
+    archivo: 'SBC_Variable_2026',
+    parametros: [
+      ['Cuota diaria fija', cuotaFija],
+      ['Factor de integración', FACTORES_INTEGRACION[factorIdx].valor.toFixed(4)],
+      ['Variables del bimestre', totalVariableBimestre],
+      ['Días del bimestre', diasBimestre],
+      ['Zona', ETIQUETA_ZONA[zona]],
+      ['Mes (UMA)', ETIQUETA_MES[mes]],
+    ],
+    secciones: [
+      {
+        titulo: 'Integración (art. 30 LSS)',
+        filas: [
+          ['Parte fija integrada (art. 30-I)', r.fijoIntegrado],
+          ['Promedio variable (art. 30-II)', r.promedioVariable],
+          ['SBC bruto', r.sbcBruto],
+          ['Piso (salario mínimo)', r.pisoSM],
+          ['Tope 25 UMA', r.tope25UMA],
+        ],
+      },
+    ],
+    totalEtiqueta: 'SBC de cotización',
+    totalValor: r.sbcAcotado,
+    fuentes: [LSS.fuente],
+  });
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="space-y-6">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h2 className="font-serif text-lg font-bold text-azul-600">SBC variable / mixto</h2>
+        <AccionesExport construir={reporte} />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-5 space-y-6">
         <Tarjeta titulo="Salario base de cotización variable/mixto" icono={<Shuffle className="w-4 h-4 text-cian-600" />} filete="azul">
           <div className="grid grid-cols-2 gap-4">
@@ -68,6 +103,7 @@ export default function VistaSBCVariable() {
           </div>
           <p className="text-[10px] text-neutro-grafito mt-3">Este SBC alimenta las cuotas obrero-patronales de la pestaña Nómina (arts. 27-30 LSS).</p>
         </Tarjeta>
+      </div>
       </div>
     </div>
   );

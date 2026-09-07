@@ -47,5 +47,8 @@ input, select, button { font-size: 16px; }
     box-shadow: none !important; width: 100% !important; max-width: none !important;
     margin: 0 !important; padding: 0 !important; min-height: 0 !important;
   }
-  .print-root { background: #fff !important; padding: 0 !important; }
+  .print-root { background: #fff !important; padding: 0 !important; position: static !important; }
+  /* Paginación: no cortar filas ni secciones a la mitad; repetir encabezados de tabla. */
+  .print-sheet section, .print-sheet tr, .print-sheet header { break-inside: avoid; }
+  .print-sheet thead { display: table-header-group; }
 }

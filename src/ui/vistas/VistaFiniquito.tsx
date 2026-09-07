@@ -1,8 +1,10 @@
 import { FileMinus } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { ETIQUETA_MES, ETIQUETA_ZONA, UMA_DIARIA } from '../../motor/constantes2026';
+import { ETIQUETA_MES, ETIQUETA_ZONA, EXENCIONES_93, METODO_ISR, SEPARACION_LFT, UMA_DIARIA } from '../../motor/constantes2026';
 import { calcularFiniquito, type MotivoSeparacion } from '../../motor/finiquito';
 import type { MesCalculo, Zona } from '../../motor/tipos';
+import type { Celda, ReporteFiscal } from '../../exportar/documento';
+import AccionesExport from '../componentes/AccionesExport';
 import { Campo, Renglon, Tarjeta } from '../componentes/Campo';
 import { moneda, porcentaje } from '../formato';
 
@@ -36,8 +38,54 @@ export default function VistaFiniquito() {
       </div>
     ) : null;
 
+  const reporte = (): ReporteFiscal => {
+    const fil = (n: string, c: { monto: number; exento: number; gravado: number }): Celda[] | null =>
+      c.monto > 0 ? [n, c.monto, c.exento, c.gravado] : null;
+    const filas = [
+      fil('Aguinaldo proporcional', r.aguinaldo),
+      fil('Vacaciones no gozadas', r.vacaciones),
+      fil('Prima vacacional', r.primaVacacional),
+      fil('3 meses de indemnización', r.tresMeses),
+      fil('20 días por año', r.veinteDiasPorAnio),
+      fil('Prima de antigüedad', r.primaAntiguedad),
+    ].filter((x): x is Celda[] => x !== null);
+    return {
+      titulo: motivo === 'despido' ? 'Liquidación por despido injustificado' : 'Finiquito',
+      archivo: `Finiquito_${motivo}_2026`,
+      parametros: [
+        ['Motivo', MOTIVOS.find((m) => m.v === motivo)?.label ?? motivo],
+        ['Cuota diaria', cuotaDiaria],
+        ['Años de servicio', anios],
+        ['Zona', ETIQUETA_ZONA[zona]],
+        ['Mes (UMA)', ETIQUETA_MES[mes]],
+        ['Vacaciones pendientes (días)', diasVacacionesPendientes],
+      ],
+      secciones: [
+        { titulo: 'Percepciones (monto / exento / gravado)', columnas: ['Concepto', 'Monto', 'Exento', 'Gravado'], filas },
+        {
+          titulo: 'Impuesto y totales',
+          filas: [
+            ['Total percepciones', r.totalPercepciones],
+            ['Total exento', r.totalExento],
+            ['ISR proporcionales (art. 174 RLISR)', r.isrOrdinario],
+            [`ISR separación (art. 95, tasa ${porcentaje(r.tasaSeparacion, 4)})`, r.isrSeparacion],
+            ['ISR total', r.isrTotal],
+          ],
+        },
+      ],
+      totalEtiqueta: 'Neto a pagar',
+      totalValor: r.neto,
+      fuentes: [SEPARACION_LFT.fuente, EXENCIONES_93.fuente, METODO_ISR.fuenteArt174, METODO_ISR.fuenteArt95],
+    };
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="space-y-6">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h2 className="font-serif text-lg font-bold text-azul-600">{motivo === 'despido' ? 'Liquidación' : 'Finiquito'}</h2>
+        <AccionesExport construir={reporte} />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-5 space-y-6">
         <Tarjeta titulo="Datos de la separación" icono={<FileMinus className="w-4 h-4 text-cian-600" />} filete="acento">
           <div className="grid grid-cols-2 gap-4">
@@ -95,6 +143,7 @@ export default function VistaFiniquito() {
             <span className="font-bold text-2xl text-azul-600 font-mono tabular bg-cian-100 px-3 py-1 rounded">{moneda(r.neto)}</span>
           </div>
         </Tarjeta>
+      </div>
       </div>
     </div>
   );
