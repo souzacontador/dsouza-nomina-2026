@@ -1,7 +1,9 @@
-import { CalendarRange, Calculator, ChevronDown, ChevronUp, FileMinus, FileSpreadsheet, Gift, PieChart, Printer, ShieldCheck, Shuffle, UserCog } from 'lucide-react';
+import { CalendarRange, Calculator, ChevronDown, ChevronUp, FileMinus, FileSpreadsheet, Gift, PieChart, Printer, Sheet, ShieldCheck, Shuffle, UserCog } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import isotipo from '../assets/logos/isotipo.png';
 import { exportarCSV } from '../exportar/csv';
+import { reporteNomina } from '../exportar/reporteNomina';
+import { exportarReporteXLSX } from '../exportar/xlsx';
 import { VERSION_NORMATIVA } from '../motor/constantes2026';
 import { calcularNomina, normalizarSemanas } from '../motor/nomina';
 import { semanasDelPeriodo } from '../motor/percepcionesExtra';
@@ -82,11 +84,14 @@ export default function App() {
           </div>
           {tab === 'nomina' && (
             <div className="flex gap-2 no-print">
-              <button type="button" onClick={() => setVista('print')} className="flex items-center gap-2 bg-azul-600 hover:bg-azul-700 text-white px-4 py-2 rounded-lg shadow-sm transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-azul-400">
-                <Printer className="w-4 h-4" /> PDF / Imprimir
+              <button type="button" onClick={() => setVista('print')} className="flex items-center gap-2 bg-azul-600 hover:bg-azul-700 text-white px-3 py-2 rounded-lg shadow-sm transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-azul-400">
+                <Printer className="w-4 h-4" /> PDF
               </button>
-              <button type="button" onClick={() => exportarCSV(resultado)} className="flex items-center gap-2 bg-cian-600 hover:bg-cian-700 text-azul-900 px-4 py-2 rounded-lg shadow-sm transition-all font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-cian-400">
-                <FileSpreadsheet className="w-4 h-4" /> Excel (CSV)
+              <button type="button" onClick={() => exportarReporteXLSX(reporteNomina(resultado))} className="flex items-center gap-2 bg-cian-600 hover:bg-cian-700 text-azul-900 px-3 py-2 rounded-lg shadow-sm transition-all font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-cian-400">
+                <Sheet className="w-4 h-4" /> Excel
+              </button>
+              <button type="button" onClick={() => exportarCSV(resultado)} className="flex items-center gap-2 bg-white hover:bg-neutro-hueso text-azul-600 border border-neutro-niebla px-3 py-2 rounded-lg shadow-sm transition-all font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-cian-400">
+                <FileSpreadsheet className="w-4 h-4" /> CSV
               </button>
             </div>
           )}

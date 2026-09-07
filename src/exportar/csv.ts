@@ -3,6 +3,7 @@ import type { ResultadoNomina } from '../motor/tipos';
 import { filasCostoSocial } from '../ui/componentes/TablaCostoSocial';
 import { dec2 } from '../ui/formato';
 import { MARCA } from '../ui/marca';
+import { descargarArchivo } from './descargar';
 
 type Celda = string | number;
 
@@ -104,14 +105,7 @@ export function construirCSV(r: ResultadoNomina): string {
   return '﻿' + filas.map((f) => f.map(esc).join(',')).join('\r\n');
 }
 
-export function exportarCSV(r: ResultadoNomina): void {
-  const blob = new Blob([construirCSV(r)], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `Nomina2026_${r.entrada.periodicidad}_${r.entrada.mes === 'Enero' ? 'Ene' : 'FebDic'}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+export function exportarCSV(r: ResultadoNomina): Promise<{ ok: boolean; motivo?: string }> {
+  const nombre = `Nomina2026_${r.entrada.periodicidad}_${r.entrada.mes === 'Enero' ? 'Ene' : 'FebDic'}.csv`;
+  return descargarArchivo(nombre, construirCSV(r));
 }

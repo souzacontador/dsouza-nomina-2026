@@ -1,6 +1,7 @@
 import { VERSION_NORMATIVA } from '../motor/constantes2026';
 import { MARCA } from '../ui/marca';
 import { dec2 } from '../ui/formato';
+import { descargarArchivo } from './descargar';
 import type { Celda, ReporteFiscal } from './documento';
 
 const esc = (c: Celda): string => {
@@ -36,14 +37,6 @@ export function construirCSVGenerico(r: ReporteFiscal): string {
   return '﻿' + filas.map((f) => f.map(esc).join(',')).join('\r\n');
 }
 
-export function exportarReporteCSV(r: ReporteFiscal): void {
-  const blob = new Blob([construirCSVGenerico(r)], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${r.archivo}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+export function exportarReporteCSV(r: ReporteFiscal): Promise<{ ok: boolean; motivo?: string }> {
+  return descargarArchivo(`${r.archivo}.csv`, construirCSVGenerico(r));
 }
