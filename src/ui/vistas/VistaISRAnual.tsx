@@ -1,0 +1,54 @@
+import { AlertTriangle, CalendarRange } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { calcularISRAnual } from '../../motor/isrAnual';
+import { Campo, Renglon, Tarjeta } from '../componentes/Campo';
+import { moneda } from '../formato';
+
+export default function VistaISRAnual() {
+  const [ingreso, setIngreso] = useState(180000);
+  const [retenido, setRetenido] = useState(15000);
+  const r = useMemo(() => calcularISRAnual({ ingresoGravableAnual: ingreso, isrRetenidoAnual: retenido }), [ingreso, retenido]);
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="lg:col-span-5 space-y-6">
+        <Tarjeta titulo="Cálculo anual (art. 152 LISR)" icono={<CalendarRange className="w-4 h-4 text-cian-600" />}>
+          <div className="space-y-4">
+            <Campo label="Ingreso gravable anual" value={ingreso} onValue={setIngreso} nota="Suma de percepciones gravadas del ejercicio por sueldos" />
+            <Campo label="ISR retenido en el año" value={retenido} onValue={setRetenido} nota="Total de retenciones efectuadas por el patrón" />
+          </div>
+          {!r.tarifaVerificada && (
+            <div className="mt-4 flex gap-2 items-start bg-ambar-100 border border-ambar-300 rounded-lg px-3 py-2 text-xs text-ambar-900">
+              <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+              <span>Tarifa anual derivada de la mensual (B.V) × 12: el rubro C.II del Anexo 8 no está en el corpus. Pendiente de cotejo con el DOF 28-12-2025.</span>
+            </div>
+          )}
+        </Tarjeta>
+      </div>
+
+      <div className="lg:col-span-7 space-y-6">
+        <Tarjeta titulo="Resultado del ejercicio" icono={<CalendarRange className="w-4 h-4 text-cian-600" />}>
+          <div className="space-y-1">
+            <Renglon k="Límite inferior del tramo" v={r.renglon?.limInf ?? 0} tono="text-neutro-grafito" />
+            <Renglon k="Excedente" v={r.excedente} tono="text-neutro-grafito" />
+            <Renglon k="Impuesto marginal" v={r.impuestoMarginal} tono="text-neutro-grafito" />
+            <Renglon k="Cuota fija" v={r.cuotaFija} tono="text-neutro-grafito" />
+            <Renglon k="ISR anual (art. 152)" v={r.isrAnual} fuerte />
+            <Renglon k="(−) ISR retenido" v={r.isrRetenidoAnual} tono="text-neutro-grafito" />
+          </div>
+          <div className={`mt-3 pt-3 border-t-2 flex justify-between items-center ${r.aFavor ? 'border-positivo-600' : 'border-negativo-600'}`}>
+            <span className={`font-bold uppercase ${r.aFavor ? 'text-positivo-700' : 'text-negativo-600'}`}>
+              {r.aFavor ? 'Saldo a favor' : 'Saldo a cargo'}
+            </span>
+            <span className={`font-bold text-2xl font-mono tabular px-3 py-1 rounded ${r.aFavor ? 'text-positivo-700 bg-positivo-100' : 'text-negativo-600 bg-negativo-100'}`}>
+              {moneda(Math.abs(r.saldo))}
+            </span>
+          </div>
+          <p className="text-[10px] text-neutro-grafito mt-3">
+            El subsidio para el empleo entregado en el año ya redujo las retenciones mensuales; no se vuelve a acreditar en el anual (Decreto DOF 31-12-2025).
+          </p>
+        </Tarjeta>
+      </div>
+    </div>
+  );
+}

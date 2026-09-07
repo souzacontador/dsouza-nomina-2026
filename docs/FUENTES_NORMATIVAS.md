@@ -79,7 +79,23 @@ Criterio CEAV (decisión 06-09-2026): el SBC integrado se clasifica en veces UMA
 
 Criterio (decisión 06-09-2026): sólo las horas del art. 66 (9 h/semana) están "dentro del límite" para la exención del art. 93-I LISR; las del art. 68 gravan al 100 % y generan aviso; más de 13 h/semana se marca como posible incumplimiento.
 
-## 7. Hallazgos colaterales fuera de alcance de esta app
+## 7. Conceptos especiales, separación e ISR anual
+
+| Elemento | Fundamento | Verificado en |
+|---|---|---|
+| Exención aguinaldo 30 UMA, prima vacacional 15 UMA, PTU 15 UMA, prima dominical 1 UMA/domingo | LISR art. 93, fracción XIV | `LISR_01_claude_llm.md` |
+| Exención separación 90 UMA por año (fracción >6 meses = año) | LISR art. 93, fracción XIII | ídem |
+| Método de retención de aguinaldo/PTU/primas | RLISR art. 174 | `Reg_LISR_060516_claude_llm.md` |
+| ISR de separación (último sueldo mensual ordinario) | LISR art. 95 (proxy mensual con art. 96) | `LISR_01_claude_llm.md` |
+| Aguinaldo 15 días; prima vacacional 25 % | LFT arts. 87 y 80 | `LFT_2026_vigente_llm.md` |
+| Indemnización 3 meses + 20 días/año | LFT arts. 48 y 50 | ídem |
+| Prima de antigüedad 12 días/año, tope 2 SM | LFT arts. 162 y 486 | ídem |
+| SBC variable/mixto (promedio bimestre ÷ días devengados) | LSS art. 30 fracciones I-III | `LSS_2026_vigente_llm.md` |
+| Tarifa anual (art. 152) | Anexo 8 rubro C.II | ⚠ **NO en el corpus** (perdida en conversión, junto con el rubro C.I de 2025 que sí quedó). Derivada de la mensual B.V × 12 (construcción estándar del SAT). Marcada como no verificada en el código (`TARIFA_ANUAL_VERIFICADA = false`); cotejar contra DOF 28-12-2025. |
+
+Criterio (06-09-2026): las exenciones del art. 93 se leen en UMA por la desindexación del salario mínimo. El ISR de separación usa el proxy mensual del art. 96 sobre el último sueldo mensual ordinario (= cuota diaria × 30.4), práctica estándar de retención en finiquito; el art. 95 estricto es anual.
+
+## 8. Hallazgos colaterales fuera de alcance de esta app
 
 - Reparar en `DSOUZAFISCAL/01 CONOCIMIENTOS/`: tabla V del Anexo 8 y tarifa del art. 96 LISR; incorporar el Decreto de subsidio DOF 31-12-2025 (requiere `CHANGELOG.md`).
 - Skill `calculadora-nomina-mx`: UMA feb–dic "estimada" 117.75 (DOF: 117.31), tope INFONAVIT 10 UMA (LINFONAVIT remite a LSS: 25 UMA), tabla CEAV con porcentajes 2023 y rango "4.51–5.00" inexistente, subsidio 15.59 % / 15.02 % correcto.

@@ -41,7 +41,17 @@ Otros scripts: `npm run typecheck` (TypeScript estricto), `npm run build` (compi
 | INFONAVIT | 5 % sobre el SBC topado a 25 UMA |
 | Precisión | El motor no redondea; la interfaz y el CSV muestran centavos |
 
-Detalle de cada constante y su fundamento: [docs/FUENTES_NORMATIVAS.md](docs/FUENTES_NORMATIVAS.md). Copia del decreto de subsidio: `docs/fuentes/`.
+### Herramientas (pestañas)
+
+| Pestaña | Qué calcula | Fundamento |
+|---|---|---|
+| Nómina | ISR, subsidio, IMSS/INFONAVIT y tiempo extra del periodo | Anexo 8, Decreto subsidio, LSS, LFT |
+| Aguinaldo / PTU | Aguinaldo, prima vacacional, PTU y prima dominical: parte exenta/gravada e ISR | LISR art. 93-XIV; RLISR art. 174 |
+| Finiquito | Finiquito (partes proporcionales) y liquidación (3 meses + 20 días/año + prima de antigüedad) con ISR de separación | LFT arts. 48, 50, 162, 486; LISR arts. 93-XIII, 95 |
+| ISR anual | Impuesto anual del ejercicio y saldo a favor o a cargo | LISR art. 152; tarifa anual derivada de B.V × 12 (pendiente de cotejo DOF) |
+| SBC variable | Salario base de cotización con elementos variables o mixtos | LSS art. 30 |
+
+Detalle de cada constante y su fundamento: [docs/FUENTES_NORMATIVAS.md](docs/FUENTES_NORMATIVAS.md). Sistema de diseño: [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) y `docs/guia-estilo.html`. Copia del decreto de subsidio: `docs/fuentes/`.
 
 ## Estructura
 
@@ -76,4 +86,6 @@ Editar únicamente `src/motor/constantes2026.ts`:
 
 ## Alcance no cubierto
 
-Crédito INFONAVIT del trabajador, aguinaldo, prima vacacional, PTU, prima dominical, salario variable/mixto para SBC, ISR anual y finiquitos.
+Crédito INFONAVIT del trabajador (descuento del acreditado), conciliación anual completa multi-ingreso, y exportación PDF/CSV de las pestañas distintas de Nómina (por ahora la exportación vive en la pestaña Nómina).
+
+> La tarifa anual 2026 (art. 152) se deriva de la mensual B.V × 12 porque el rubro C.II del Anexo 8 se perdió en la conversión del corpus. Está marcada como pendiente de cotejo contra el DOF 28-12-2025.

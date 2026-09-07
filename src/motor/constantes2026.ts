@@ -245,6 +245,74 @@ export const LISR_93_I = {
     'LISR art. 93, fracciones I y II (exención de tiempo extraordinario y servicios en días de descanso; tope de 5 veces por semana leído en UMA por la desindexación del salario mínimo, CPEUM Transitorio DOF 27-01-2016).',
 };
 
+// ─── Tarifa ANUAL 2026 (art. 152 LISR) ────────────────────────────────────────
+/**
+ * La tarifa anual del art. 152 se construye multiplicando límites y cuota fija de la
+ * tarifa mensual (art. 96, rubro B.V) por 12, conservando los por cientos. El rubro
+ * C.II del Anexo 8 (tabla anual 2026) se perdió en la conversión del corpus; se deriva
+ * de B.V × 12 y queda PENDIENTE de cotejo contra el DOF 28-12-2025.
+ */
+export const TARIFA_ANUAL: Tarifa = {
+  clave: 'Art. 152 LISR — tarifa anual 2026 (derivada de B.V × 12; rubro C.II Anexo 8, pendiente de cotejo DOF)',
+  dias: 365,
+  renglones: TARIFA_MENSUAL.renglones.map((r) => ({
+    limInf: +(r.limInf * 12).toFixed(2),
+    limSup: r.limSup === null ? null : +(r.limSup * 12).toFixed(2),
+    cuota: +(r.cuota * 12).toFixed(2),
+    pct: r.pct,
+  })),
+};
+export const TARIFA_ANUAL_VERIFICADA = false;
+
+/** Sueldo mensual ordinario = cuota diaria × 30.4 (mes de calendario, art. 174-I RLISR). */
+export const DIAS_MES_CALENDARIO = 30.4;
+
+// ─── Exenciones del art. 93 LISR (leídas en UMA por desindexación) ────────────
+export const EXENCIONES_93 = {
+  /** XIV: gratificación anual (aguinaldo), hasta 30 días de SM → 30 UMA. */
+  aguinaldoUMA: 30,
+  /** XIV: prima vacacional, hasta 15 días → 15 UMA. */
+  primaVacacionalUMA: 15,
+  /** XIV: PTU, hasta 15 días → 15 UMA. */
+  ptuUMA: 15,
+  /** XIV: prima dominical, 1 día por cada domingo laborado → 1 UMA/domingo. */
+  primaDominicalUMAporDomingo: 1,
+  /** XIII: primas de antigüedad, retiro e indemnizaciones por separación, 90 UMA por año de servicio. */
+  separacionUMAporAnio: 90,
+  fuente:
+    'LISR art. 93, fracciones XIII y XIV (exenciones de aguinaldo 30, prima vacacional 15, PTU 15, prima dominical 1 por domingo y separación 90 por año; expresadas en UMA por la desindexación del salario mínimo).',
+};
+
+// ─── Conceptos y separación — LFT ─────────────────────────────────────────────
+export const CONCEPTOS_LFT = {
+  /** Art. 87: aguinaldo mínimo 15 días de salario. */
+  aguinaldoDiasMin: 15,
+  /** Art. 80: prima vacacional mínima 25 % sobre los días de vacaciones. */
+  primaVacacionalPct: 0.25,
+  fuente: 'LFT arts. 80 (prima vacacional 25 %) y 87 (aguinaldo 15 días).',
+};
+
+export const SEPARACION_LFT = {
+  /** Art. 48 / 50-III: indemnización constitucional de 3 meses (90 días de salario). */
+  indemnizacion3MesesDias: 90,
+  /** Art. 50-II: 20 días de salario por cada año de servicios (relación por tiempo indeterminado). */
+  veinteDiasPorAnio: 20,
+  /** Art. 162: prima de antigüedad 12 días de salario por año... */
+  primaAntiguedadDiasPorAnio: 12,
+  /** ...con salario topado a 2 veces el salario mínimo del área (arts. 486 y 485 LFT). */
+  primaAntiguedadTopeSM: 2,
+  /** Art. 162-III: la prima de antigüedad por retiro voluntario exige al menos 15 años de servicio. */
+  primaAntiguedadAniosMinRenuncia: 15,
+  fuente:
+    'LFT arts. 48 y 50 (indemnización 3 meses + 20 días/año), 162 (prima de antigüedad 12 días/año) y 486 (salario tope 2 SM).',
+};
+
+// ─── Método de retención de conceptos especiales y separación — LISR/RLISR ────
+export const METODO_ISR = {
+  fuenteArt174: 'RLISR art. 174 (retención opcional de gratificación anual, PTU, primas dominical y vacacional).',
+  fuenteArt95: 'LISR art. 95 (impuesto sobre primas de antigüedad, retiro e indemnizaciones por separación).',
+};
+
 export const FUENTES = [
   FUENTE_UMA,
   FUENTE_SM,
@@ -256,4 +324,10 @@ export const FUENTES = [
   FUENTE_FI,
   LFT_2026.fuente,
   LISR_93_I.fuente,
+  EXENCIONES_93.fuente,
+  CONCEPTOS_LFT.fuente,
+  SEPARACION_LFT.fuente,
+  METODO_ISR.fuenteArt174,
+  METODO_ISR.fuenteArt95,
+  TARIFA_ANUAL.clave,
 ];
