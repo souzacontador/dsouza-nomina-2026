@@ -97,5 +97,6 @@ Criterio (06-09-2026): las exenciones del art. 93 se leen en UMA por la desindex
 
 ## 8. Hallazgos colaterales fuera de alcance de esta app
 
-- Reparar en `DSOUZAFISCAL/01 CONOCIMIENTOS/`: tabla V del Anexo 8 y tarifa del art. 96 LISR; incorporar el Decreto de subsidio DOF 31-12-2025 (requiere `CHANGELOG.md`).
-- Skill `calculadora-nomina-mx`: UMA feb–dic "estimada" 117.75 (DOF: 117.31), tope INFONAVIT 10 UMA (LINFONAVIT remite a LSS: 25 UMA), tabla CEAV con porcentajes 2023 y rango "4.51–5.00" inexistente, subsidio 15.59 % / 15.02 % correcto.
+- ✅ Corregido 06-09-2026 en `DSOUZAFISCAL/01 CONOCIMIENTOS/`: repuesta la tabla V del Anexo 8 y la tarifa del art. 96 en `LISR_01`; marcada la anual C.II faltante; incorporado el Decreto de subsidio DOF 31-12-2025; registrado en `CHANGELOG.md` (commit 9e097b1).
+- ✅ Corregido 06-09-2026 en la skill `calculadora-nomina-mx`: UMA feb–dic 117.31 (antes 117.75), tope INFONAVIT 25 UMA (antes 10), tabla CEAV columna 2026 (antes 2023 con rango "4.51–5.00" inexistente).
+- Pendiente: cotejar la tarifa anual 2026 (rubro C.II) contra el DOF y sustituir la derivación B.V × 12 en `TARIFA_ANUAL`.
