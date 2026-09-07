@@ -247,22 +247,29 @@ export const LISR_93_I = {
 
 // ─── Tarifa ANUAL 2026 (art. 152 LISR) ────────────────────────────────────────
 /**
- * La tarifa anual del art. 152 se construye multiplicando límites y cuota fija de la
- * tarifa mensual (art. 96, rubro B.V) por 12, conservando los por cientos. El rubro
- * C.II del Anexo 8 (tabla anual 2026) se perdió en la conversión del corpus; se deriva
- * de B.V × 12 y queda PENDIENTE de cotejo contra el DOF 28-12-2025.
+ * Tarifa anual del art. 152 LISR — Anexo 8 RMF 2026 (DOF 28-12-2025), rubro C.II.
+ * Transcrita del PDF oficial de la tarifa anual 2026 (Fiscalia, aportado 06-09-2026).
+ * Nota: NO equivale exactamente a la mensual (B.V) × 12; difiere por centavos en el
+ * redondeo de los límites y la cuota fija, por eso se usa la tabla publicada.
  */
 export const TARIFA_ANUAL: Tarifa = {
-  clave: 'Art. 152 LISR — tarifa anual 2026 (derivada de B.V × 12; rubro C.II Anexo 8, pendiente de cotejo DOF)',
+  clave: 'Art. 152 LISR — tarifa anual 2026 (Anexo 8 RMF, rubro C.II, DOF 28-12-2025)',
   dias: 365,
-  renglones: TARIFA_MENSUAL.renglones.map((r) => ({
-    limInf: +(r.limInf * 12).toFixed(2),
-    limSup: r.limSup === null ? null : +(r.limSup * 12).toFixed(2),
-    cuota: +(r.cuota * 12).toFixed(2),
-    pct: r.pct,
-  })),
+  renglones: [
+    t(0.01, 10135.11, 0.0, 0.0192),
+    t(10135.12, 86022.11, 194.59, 0.064),
+    t(86022.12, 151176.19, 5051.37, 0.1088),
+    t(151176.2, 175735.66, 12140.13, 0.16),
+    t(175735.67, 210403.69, 16069.64, 0.1792),
+    t(210403.7, 424353.97, 22282.14, 0.2136),
+    t(424353.98, 668840.14, 67981.92, 0.2352),
+    t(668840.15, 1276925.98, 125485.07, 0.3),
+    t(1276925.99, 1702567.97, 307910.81, 0.32),
+    t(1702567.98, 5107703.92, 444116.23, 0.34),
+    t(5107703.93, null, 1601862.46, 0.35),
+  ],
 };
-export const TARIFA_ANUAL_VERIFICADA = false;
+export const TARIFA_ANUAL_VERIFICADA = true;
 
 /** Sueldo mensual ordinario = cuota diaria × 30.4 (mes de calendario, art. 174-I RLISR). */
 export const DIAS_MES_CALENDARIO = 30.4;

@@ -10,8 +10,7 @@ import type { RenglonTarifa } from './tipos';
  * El subsidio para el empleo entregado durante el año ya redujo las retenciones
  * mensuales; no se vuelve a acreditar en el cálculo anual (Decreto DOF 31-12-2025).
  *
- * ⚠ La tarifa anual 2026 se deriva de la mensual (B.V) × 12: el rubro C.II del Anexo 8
- * se perdió en la conversión del corpus. Pendiente de cotejo contra el DOF.
+ * La tarifa anual 2026 es la publicada en el Anexo 8 RMF, rubro C.II (DOF 28-12-2025).
  */
 export interface EntradaISRAnual {
   /** Total de ingresos gravados por salarios en el ejercicio. */

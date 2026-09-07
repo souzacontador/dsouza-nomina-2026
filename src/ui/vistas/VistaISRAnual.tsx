@@ -17,11 +17,13 @@ export default function VistaISRAnual() {
             <Campo label="Ingreso gravable anual" value={ingreso} onValue={setIngreso} nota="Suma de percepciones gravadas del ejercicio por sueldos" />
             <Campo label="ISR retenido en el año" value={retenido} onValue={setRetenido} nota="Total de retenciones efectuadas por el patrón" />
           </div>
-          {!r.tarifaVerificada && (
+          {!r.tarifaVerificada ? (
             <div className="mt-4 flex gap-2 items-start bg-ambar-100 border border-ambar-300 rounded-lg px-3 py-2 text-xs text-ambar-900">
               <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
-              <span>Tarifa anual derivada de la mensual (B.V) × 12: el rubro C.II del Anexo 8 no está en el corpus. Pendiente de cotejo con el DOF 28-12-2025.</span>
+              <span>Tarifa anual derivada; pendiente de cotejo con el DOF.</span>
             </div>
+          ) : (
+            <p className="mt-4 text-[10px] text-neutro-grafito">Tarifa anual: Anexo 8 RMF, rubro C.II (DOF 28-12-2025), verificada.</p>
           )}
         </Tarjeta>
       </div>

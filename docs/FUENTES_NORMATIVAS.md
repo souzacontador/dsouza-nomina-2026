@@ -91,7 +91,7 @@ Criterio (decisión 06-09-2026): sólo las horas del art. 66 (9 h/semana) están
 | Indemnización 3 meses + 20 días/año | LFT arts. 48 y 50 | ídem |
 | Prima de antigüedad 12 días/año, tope 2 SM | LFT arts. 162 y 486 | ídem |
 | SBC variable/mixto (promedio bimestre ÷ días devengados) | LSS art. 30 fracciones I-III | `LSS_2026_vigente_llm.md` |
-| Tarifa anual (art. 152) | Anexo 8 rubro C.II | ⚠ **NO en el corpus** (perdida en conversión, junto con el rubro C.I de 2025 que sí quedó). Derivada de la mensual B.V × 12 (construcción estándar del SAT). Marcada como no verificada en el código (`TARIFA_ANUAL_VERIFICADA = false`); cotejar contra DOF 28-12-2025. |
+| Tarifa anual (art. 152) | Anexo 8 rubro C.II | ✅ Verificada 06-09-2026 con el PDF oficial de la tarifa anual 2026 aportado por el usuario (`2026 ACTUALIDADES/HERRAMIENTAS/Tabla Anual 2026.xls`). Se transcribió a `TARIFA_ANUAL` (`TARIFA_ANUAL_VERIFICADA = true`) y se repuso en el corpus. No coincide con B.V × 12 (difiere por centavos). |
 
 Criterio (06-09-2026): las exenciones del art. 93 se leen en UMA por la desindexación del salario mínimo. El ISR de separación usa el proxy mensual del art. 96 sobre el último sueldo mensual ordinario (= cuota diaria × 30.4), práctica estándar de retención en finiquito; el art. 95 estricto es anual.
 
@@ -99,4 +99,4 @@ Criterio (06-09-2026): las exenciones del art. 93 se leen en UMA por la desindex
 
 - ✅ Corregido 06-09-2026 en `DSOUZAFISCAL/01 CONOCIMIENTOS/`: repuesta la tabla V del Anexo 8 y la tarifa del art. 96 en `LISR_01`; marcada la anual C.II faltante; incorporado el Decreto de subsidio DOF 31-12-2025; registrado en `CHANGELOG.md` (commit 9e097b1).
 - ✅ Corregido 06-09-2026 en la skill `calculadora-nomina-mx`: UMA feb–dic 117.31 (antes 117.75), tope INFONAVIT 25 UMA (antes 10), tabla CEAV columna 2026 (antes 2023 con rango "4.51–5.00" inexistente).
-- Pendiente: cotejar la tarifa anual 2026 (rubro C.II) contra el DOF y sustituir la derivación B.V × 12 en `TARIFA_ANUAL`.
+- ✅ Cerrado 06-09-2026: la tarifa anual 2026 (rubro C.II) fue cotejada con el PDF oficial que aportó el usuario, transcrita a `TARIFA_ANUAL` y repuesta en el corpus.
